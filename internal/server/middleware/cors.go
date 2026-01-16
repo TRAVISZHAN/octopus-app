@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"os"
 	"strings"
 
 	"github.com/bestruirui/octopus/internal/model"
@@ -19,10 +20,16 @@ func Cors() gin.HandlerFunc {
 	// - 为空: 不允许跨域
 	// - "*": 允许所有来源
 	// - 逗号分隔的域名列表: 只允许指定的域名 (如 "https://example.com,https://example2.com")
+	// 环境变量 OCTOPUS_CORS_ALLOW_ORIGINS 可覆盖数据库设置 (用于桌面应用等场景)
 	config.AllowOriginFunc = func(origin string) bool {
-		allowed, err := op.SettingGetString(model.SettingKeyCORSAllowOrigins)
-		if err != nil {
-			return false
+		// 优先使用环境变量覆盖
+		allowed := os.Getenv("OCTOPUS_CORS_ALLOW_ORIGINS")
+		if allowed == "" {
+			var err error
+			allowed, err = op.SettingGetString(model.SettingKeyCORSAllowOrigins)
+			if err != nil {
+				return false
+			}
 		}
 		allowed = strings.TrimSpace(allowed)
 		if allowed == "" {
