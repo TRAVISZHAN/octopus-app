@@ -1,6 +1,7 @@
 # Octopus - LLM API Aggregation & Load Balancing Service
 
 > Generated: 2026-01-16 13:52:53
+> Updated: 2026-01-17 (Added Tauri Desktop App)
 
 ## Project Overview
 
@@ -16,6 +17,7 @@ Octopus is a lightweight, elegant LLM API aggregation and load balancing service
 - Automatic price and model synchronization
 - Request statistics and cost tracking
 - Multi-database support (SQLite, MySQL, PostgreSQL)
+- **Desktop App** with system tray (Tauri v2)
 
 ## Architecture
 
@@ -76,6 +78,9 @@ graph TB
 | **cmd** | `cmd/` | CLI commands (Cobra) |
 | **internal** | `internal/` | Core business logic |
 | **web** | `web/` | Frontend (Next.js + React) |
+| **src-tauri** | `src-tauri/` | Desktop app (Tauri v2 + Rust) |
+| **scripts** | `scripts/` | Build scripts |
+| **docs** | `docs/` | Documentation |
 
 ### Internal Submodules
 
@@ -133,6 +138,14 @@ cd web && pnpm run build
 mv web/out static/
 go build -o octopus main.go
 ./octopus start
+
+# Desktop App - Development
+npm install && cd web && pnpm install && cd ..
+sh scripts/build-go-binaries.sh --dev
+npm run tauri:dev
+
+# Desktop App - Production Build
+npm run tauri:build
 ```
 
 ## Configuration
@@ -178,3 +191,58 @@ Environment variables: `OCTOPUS_<PATH>` (e.g., `OCTOPUS_SERVER_PORT`)
 
 - [internal/CLAUDE.md](internal/CLAUDE.md) - Backend core modules
 - [web/CLAUDE.md](web/CLAUDE.md) - Frontend modules
+- [docs/TAURI_FEATURES.md](docs/TAURI_FEATURES.md) - Desktop app features
+- [docs/TAURI_BUILD.md](docs/TAURI_BUILD.md) - Desktop app build guide
+- [docs/TAURI_CHANGELOG.md](docs/TAURI_CHANGELOG.md) - Desktop app changelog
+
+## Desktop App (Tauri v2)
+
+Octopus can run as a native desktop application with system tray support.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Tauri Desktop App                        │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────────────────────────────┐  │
+│  │ System Tray │  │        WebView Window               │  │
+│  │ (Rust)      │  │  ┌─────────────────────────────┐    │  │
+│  │ • Status    │  │  │   Next.js Frontend          │    │  │
+│  │ • Start     │  │  │   (static export)           │    │  │
+│  │ • Stop      │  │  └─────────────────────────────┘    │  │
+│  │ • Restart   │  │                                     │  │
+│  │ • Logs      │  │                                     │  │
+│  │ • Quit      │  │                                     │  │
+│  └─────────────┘  └─────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│                 Go Backend (sidecar process)                │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │              Existing Octopus Core                    │  │
+│  └───────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Desktop Features
+
+- **System Tray**: Status indicator, Start/Stop/Restart service, View Logs, Quit
+- **Process Management**: Go backend runs as sidecar, auto-starts on launch
+- **Log Streaming**: Real-time stdout/stderr from Go backend to frontend
+- **Cross-Platform**: macOS, Windows, Linux support
+
+### Desktop Tech Stack
+
+- **Framework**: Tauri v2
+- **Language**: Rust
+- **Plugins**: tauri-plugin-shell (sidecar management)
+
+### Key Files
+
+| File | Description |
+|------|-------------|
+| `src-tauri/src/lib.rs` | Process management + system tray |
+| `src-tauri/tauri.conf.json` | Tauri configuration |
+| `web/src/lib/desktop.ts` | Desktop mode detection |
+| `web/src/lib/tauri-events.ts` | Tauri event handling |
+| `web/src/components/modules/log/TauriLogViewer.tsx` | Log viewer component |
+| `scripts/build-go-binaries.sh` | Go sidecar build script |
