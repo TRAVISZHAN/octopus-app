@@ -1,7 +1,15 @@
 import type { ApiError } from './types';
 import { HttpStatus } from './types';
+import { getApiBaseUrl } from '@/lib/desktop';
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '.';
+// 动态获取 API_BASE_URL，每次请求时重新计算
+// 这样可以确保在 Tauri 环境准备好后正确检测
+function getBaseUrl(): string {
+    return getApiBaseUrl();
+}
+
+// 保留导出以兼容可能的外部引用
+export const API_BASE_URL = '.';
 
 /**
  * 获取认证 Store（延迟导入以避免循环依赖）
@@ -74,7 +82,7 @@ async function request<T>(
     const searchParams = params ? new URLSearchParams(
         Object.entries(params).map(([k, v]) => [k, String(v)])
     ).toString() : '';
-    const url = `${API_BASE_URL}${path}${searchParams ? `?${searchParams}` : ''}`;
+    const url = `${getBaseUrl()}${path}${searchParams ? `?${searchParams}` : ''}`;
 
     // 构建请求头
     const headers = new Headers();

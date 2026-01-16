@@ -16,6 +16,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { CONTENT_MAP } from '@/route';
 import { apiClient } from '@/api/client';
 import { logger } from '@/lib/logger';
+import { TauriLogViewer } from '@/components/modules/log/TauriLogViewer';
 
 function timeout(ms: number) {
     return new Promise<void>((resolve) => setTimeout(resolve, ms));
@@ -205,67 +206,70 @@ export function AppContainer() {
 
     // 主界面
     return (
-        <motion.div
-            key="main-app"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="px-3 md:px-6 max-w-6xl mx-auto md:grid md:grid-cols-[auto_1fr] md:gap-6"
-        >
-            <NavBar />
-            <main className="w-full mb-28 min-w-0 md:mb-6">
-                <header className="flex items-center gap-x-2 my-6 px-2">
-                    <Logo size={48} />
-                    <div className="flex-1 overflow-hidden">
-                        <AnimatePresence mode="wait" custom={direction}>
-                            <motion.div
-                                key={activeItem}
-                                custom={direction}
-                                variants={{
-                                    initial: (direction: number) => ({
-                                        y: 32 * direction,
-                                        opacity: 0
-                                    }),
-                                    animate: {
-                                        y: 0,
-                                        opacity: 1
-                                    },
-                                    exit: (direction: number) => ({
-                                        y: -32 * direction,
-                                        opacity: 0
-                                    })
-                                }}
-                                initial="initial"
-                                animate="animate"
-                                exit="exit"
-                                transition={{ duration: 0.3 }}
-                                className="flex items-center"
-                            >
-                                <span className="text-3xl font-bold mt-1">{t(activeItem)}</span>
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-                    <div className="ml-auto">
-                        <Toolbar />
-                    </div>
-                </header>
-                <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                        key={activeItem}
-                        variants={ENTRANCE_VARIANTS.content}
-                        initial="initial"
-                        animate="animate"
-                        exit={{
-                            opacity: 0,
-                            scale: 0.98,
-                        }}
-                        transition={{ duration: 0.25 }}
-                    >
-                        <ContentLoader activeRoute={activeItem} />
-                    </motion.div>
-                </AnimatePresence>
-            </main>
-        </motion.div>
+        <>
+            <motion.div
+                key="main-app"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="px-3 md:px-6 max-w-6xl mx-auto md:grid md:grid-cols-[auto_1fr] md:gap-6"
+            >
+                <NavBar />
+                <main className="w-full mb-28 min-w-0 md:mb-6">
+                    <header className="flex items-center gap-x-2 my-6 px-2">
+                        <Logo size={48} />
+                        <div className="flex-1 overflow-hidden">
+                            <AnimatePresence mode="wait" custom={direction}>
+                                <motion.div
+                                    key={activeItem}
+                                    custom={direction}
+                                    variants={{
+                                        initial: (direction: number) => ({
+                                            y: 32 * direction,
+                                            opacity: 0
+                                        }),
+                                        animate: {
+                                            y: 0,
+                                            opacity: 1
+                                        },
+                                        exit: (direction: number) => ({
+                                            y: -32 * direction,
+                                            opacity: 0
+                                        })
+                                    }}
+                                    initial="initial"
+                                    animate="animate"
+                                    exit="exit"
+                                    transition={{ duration: 0.3 }}
+                                    className="flex items-center"
+                                >
+                                    <span className="text-3xl font-bold mt-1">{t(activeItem)}</span>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                        <div className="ml-auto">
+                            <Toolbar />
+                        </div>
+                    </header>
+                    <AnimatePresence mode="wait" initial={false}>
+                        <motion.div
+                            key={activeItem}
+                            variants={ENTRANCE_VARIANTS.content}
+                            initial="initial"
+                            animate="animate"
+                            exit={{
+                                opacity: 0,
+                                scale: 0.98,
+                            }}
+                            transition={{ duration: 0.25 }}
+                        >
+                            <ContentLoader activeRoute={activeItem} />
+                        </motion.div>
+                    </AnimatePresence>
+                </main>
+            </motion.div>
+            <TauriLogViewer />
+        </>
     );
 }
 
