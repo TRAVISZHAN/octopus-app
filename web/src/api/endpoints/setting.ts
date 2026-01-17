@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient, API_BASE_URL } from '../client';
 import { logger } from '@/lib/logger';
 import { useAuthStore } from './user';
+import { getApiBaseUrl } from '@/lib/desktop';
 
 /**
  * Setting 数据
@@ -148,7 +149,7 @@ export function useExportDB() {
             params.set('include_logs', String(!!options.include_logs));
             params.set('include_stats', String(!!options.include_stats));
 
-            const res = await fetch(`${API_BASE_URL}/api/v1/setting/export?${params.toString()}`, {
+            const res = await fetch(`${getApiBaseUrl()}/api/v1/setting/export?${params.toString()}`, {
                 method: 'GET',
                 headers: {
                     Authorization: getAuthHeader(),
@@ -180,7 +181,7 @@ export function useImportDB() {
             const form = new FormData();
             form.append('file', file);
 
-            const res = await fetch(`${API_BASE_URL}/api/v1/setting/import`, {
+            const res = await fetch(`${getApiBaseUrl()}/api/v1/setting/import`, {
                 method: 'POST',
                 headers: {
                     Authorization: getAuthHeader(),
