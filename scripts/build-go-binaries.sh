@@ -17,7 +17,7 @@ mkdir -p "$OUTPUT_DIR"
 cd "$PROJECT_ROOT"
 
 # Get version information
-VERSION=$(git describe --tags --always 2>/dev/null || echo "dev")
+VERSION=$(git describe --tags --abbrev=0 2>/dev/null || git rev-parse --short HEAD 2>/dev/null || echo "dev")
 COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 BUILD_TIME=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
 
