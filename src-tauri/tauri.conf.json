@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "identifier": "com.octopus.app",
   "build": {
-    "beforeDevCommand": "cd web && pnpm run dev",
-    "beforeBuildCommand": "cd web && pnpm run build",
+    "beforeDevCommand": "cd web && NEXT_PUBLIC_APP_VERSION=fabdc40 pnpm run dev",
+    "beforeBuildCommand": "cd web && NEXT_PUBLIC_APP_VERSION=fabdc40 pnpm run build",
     "devUrl": "http://localhost:3000",
     "frontendDist": "../web/out"
   },
@@ -20,7 +20,7 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "resources": [],
+    "resources": ["icons/icon-template.png"],
     "macOS": {
       "minimumSystemVersion": "10.15",
       "entitlements": null,

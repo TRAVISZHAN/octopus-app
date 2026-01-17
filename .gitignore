@@ -17,6 +17,7 @@ static/out/*
 web/node_modules/
 web/.next/
 web/out/
+web/.env
 .ace-tool/
 node_modules/
 

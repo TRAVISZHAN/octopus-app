@@ -16,6 +16,21 @@ mkdir -p "$OUTPUT_DIR"
 
 cd "$PROJECT_ROOT"
 
+# Get version information
+VERSION=$(git describe --tags --always 2>/dev/null || echo "dev")
+COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+BUILD_TIME=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
+
+# Build ldflags
+LDFLAGS="-s -w"
+LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/octopus/internal/conf.Version=$VERSION'"
+LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/octopus/internal/conf.Commit=$COMMIT'"
+LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/octopus/internal/conf.BuildTime=$BUILD_TIME'"
+
+echo "Version: $VERSION"
+echo "Commit: $COMMIT"
+echo "Build Time: $BUILD_TIME"
+
 # Build for current platform only (for development)
 if [ "$1" == "--dev" ]; then
     echo "Building for current platform only..."
@@ -43,7 +58,7 @@ if [ "$1" == "--dev" ]; then
     esac
 
     echo "Building $TARGET..."
-    go build -ldflags="-s -w" -o "$OUTPUT_DIR/$TARGET" main.go
+    go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/$TARGET" main.go
     echo "Done: $OUTPUT_DIR/$TARGET"
     exit 0
 fi
@@ -51,22 +66,22 @@ fi
 # Build for all platforms
 echo ""
 echo "=== macOS Apple Silicon (arm64) ==="
-GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o "$OUTPUT_DIR/octopus-server-aarch64-apple-darwin" main.go
+GOOS=darwin GOARCH=arm64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-aarch64-apple-darwin" main.go
 echo "Done: octopus-server-aarch64-apple-darwin"
 
 echo ""
 echo "=== macOS Intel (amd64) ==="
-GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o "$OUTPUT_DIR/octopus-server-x86_64-apple-darwin" main.go
+GOOS=darwin GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-x86_64-apple-darwin" main.go
 echo "Done: octopus-server-x86_64-apple-darwin"
 
 echo ""
 echo "=== Windows (amd64) ==="
-GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o "$OUTPUT_DIR/octopus-server-x86_64-pc-windows-msvc.exe" main.go
+GOOS=windows GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-x86_64-pc-windows-msvc.exe" main.go
 echo "Done: octopus-server-x86_64-pc-windows-msvc.exe"
 
 echo ""
 echo "=== Linux (amd64) ==="
-GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o "$OUTPUT_DIR/octopus-server-x86_64-unknown-linux-gnu" main.go
+GOOS=linux GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-x86_64-unknown-linux-gnu" main.go
 echo "Done: octopus-server-x86_64-unknown-linux-gnu"
 
 echo ""

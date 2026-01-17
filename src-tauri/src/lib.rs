@@ -179,8 +179,32 @@ async fn get_backend_status(state: State<'_, GoProcess>) -> Result<bool, String>
 fn create_tray(app: &AppHandle) -> tauri::Result<()> {
     let menu = build_tray_menu(app, false)?;
 
-    TrayIconBuilder::with_id("main")
-        .icon(app.default_window_icon().unwrap().clone())
+    // Load icon based on platform
+    let icon = if cfg!(target_os = "macos") {
+        // Try to load template icon for macOS
+        match app.path().resource_dir() {
+            Ok(resource_dir) => {
+                let icon_path = resource_dir.join("icons/icon-template.png");
+                match load_icon_from_path(&icon_path) {
+                    Ok(img) => img,
+                    Err(_) => {
+                        // Fall back to default icon if template icon fails to load
+                        app.default_window_icon().unwrap().clone()
+                    }
+                }
+            }
+            Err(_) => {
+                // Fall back to default icon if resource dir is not available
+                app.default_window_icon().unwrap().clone()
+            }
+        }
+    } else {
+        // Use default icon for other platforms
+        app.default_window_icon().unwrap().clone()
+    };
+
+    let tray = TrayIconBuilder::with_id("main")
+        .icon(icon)
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| {
@@ -202,15 +226,54 @@ fn create_tray(app: &AppHandle) -> tauri::Result<()> {
         })
         .build(app)?;
 
+    // Enable template icon mode on macOS
+    #[cfg(target_os = "macos")]
+    {
+        let _ = tray.set_icon_as_template(true);
+    }
+
     Ok(())
+}
+
+/// Load icon from file path
+fn load_icon_from_path(path: &std::path::Path) -> Result<tauri::image::Image<'static>, Box<dyn std::error::Error>> {
+    // Read and decode the image file
+    let img = image::open(path)?;
+    let rgba = img.to_rgba8();
+    let (width, height) = rgba.dimensions();
+    let rgba_data = rgba.into_raw();
+
+    // Create Tauri Image from RGBA data
+    Ok(tauri::image::Image::new_owned(rgba_data, width, height))
 }
 
 /// Build the tray menu
 fn build_tray_menu(app: &AppHandle, is_running: bool) -> tauri::Result<Menu<tauri::Wry>> {
-    let status_text = if is_running {
-        "Status: Running"
+    // Detect system language
+    let is_chinese = sys_locale::get_locale()
+        .map(|locale| locale.starts_with("zh"))
+        .unwrap_or(false);
+
+    let (status_text, show_text, start_text, stop_text, restart_text, logs_text, quit_text) = if is_chinese {
+        (
+            if is_running { "状态: 运行中" } else { "状态: 已停止" },
+            "显示窗口",
+            "启动服务",
+            "停止服务",
+            "重启服务",
+            "查看日志",
+            "退出"
+        )
     } else {
-        "Status: Stopped"
+        (
+            if is_running { "Status: Running" } else { "Status: Stopped" },
+            "Show Window",
+            "Start Service",
+            "Stop Service",
+            "Restart Service",
+            "View Logs",
+            "Quit"
+        )
     };
 
     Menu::with_items(
@@ -218,15 +281,15 @@ fn build_tray_menu(app: &AppHandle, is_running: bool) -> tauri::Result<Menu<taur
         &[
             &MenuItem::with_id(app, "status", status_text, false, None::<&str>)?,
             &PredefinedMenuItem::separator(app)?,
-            &MenuItem::with_id(app, "show", "Show Window", true, None::<&str>)?,
+            &MenuItem::with_id(app, "show", show_text, true, None::<&str>)?,
             &PredefinedMenuItem::separator(app)?,
-            &MenuItem::with_id(app, "start", "Start Service", !is_running, None::<&str>)?,
-            &MenuItem::with_id(app, "stop", "Stop Service", is_running, None::<&str>)?,
-            &MenuItem::with_id(app, "restart", "Restart Service", is_running, None::<&str>)?,
+            &MenuItem::with_id(app, "start", start_text, !is_running, None::<&str>)?,
+            &MenuItem::with_id(app, "stop", stop_text, is_running, None::<&str>)?,
+            &MenuItem::with_id(app, "restart", restart_text, is_running, None::<&str>)?,
             &PredefinedMenuItem::separator(app)?,
-            &MenuItem::with_id(app, "logs", "View Logs", true, None::<&str>)?,
+            &MenuItem::with_id(app, "logs", logs_text, true, None::<&str>)?,
             &PredefinedMenuItem::separator(app)?,
-            &MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?,
+            &MenuItem::with_id(app, "quit", quit_text, true, None::<&str>)?,
         ],
     )
 }

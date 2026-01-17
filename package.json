@@ -8,7 +8,9 @@
     "tauri:build": "sh scripts/build-go-binaries.sh && tauri build",
     "tauri:build:dev": "sh scripts/build-go-binaries.sh --dev && tauri build",
     "go:build": "sh scripts/build-go-binaries.sh",
-    "go:build:dev": "sh scripts/build-go-binaries.sh --dev"
+    "go:build:dev": "sh scripts/build-go-binaries.sh --dev",
+    "clean": "sh scripts/clean.sh",
+    "clean:full": "sh scripts/clean.sh --full"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0"

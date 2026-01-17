@@ -2,11 +2,12 @@
 
 import { useTranslations } from 'next-intl';
 import { Info, Tag, Github, RefreshCw, AlertTriangle, Download, Loader2 } from 'lucide-react';
-import { APP_VERSION, GITHUB_REPO } from '@/lib/info';
+import { APP_VERSION, GITHUB_REPO, DESKTOP_REPO } from '@/lib/info';
 import { useLatestInfo, useNowVersion, useUpdateCore } from '@/api/endpoints/update';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/common/Toast';
 import { isOctopusCacheName, isFontCacheName, SW_MESSAGE_TYPE } from '@/lib/sw';
+import { isDesktopAppSync } from '@/lib/desktop';
 
 export function SettingInfo() {
     const t = useTranslations('setting');
@@ -16,6 +17,7 @@ export function SettingInfo() {
 
     const backendNowVersion = nowVersionQuery.data || '';
     const latestVersion = latestInfoQuery.data?.tag_name || '';
+    const isDesktop = isDesktopAppSync();
 
     // 前端版本与后端当前版本不一致 → 浏览器缓存问题
     const isCacheMismatch = !!backendNowVersion && backendNowVersion !== APP_VERSION;
@@ -70,11 +72,11 @@ export function SettingInfo() {
                 <Info className="h-5 w-5" />
                 {t('info.title')}
             </h2>
-            {/* GitHub 仓库 */}
+            {/* GitHub 仓库 (上游) */}
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                     <Github className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-sm font-medium">{t('info.github')}</span>
+                    <span className="text-sm font-medium">{t('info.githubUpstream')}</span>
                 </div>
                 <a
                     href={GITHUB_REPO}
@@ -85,11 +87,28 @@ export function SettingInfo() {
                     {GITHUB_REPO.replace('https://github.com/', '')}
                 </a>
             </div>
-            {/* 当前版本 */}
+            {/* GitHub 仓库 (桌面应用) */}
+            {isDesktop && (
+                <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                        <Github className="h-5 w-5 text-muted-foreground" />
+                        <span className="text-sm font-medium">{t('info.githubDesktop')}</span>
+                    </div>
+                    <a
+                        href={DESKTOP_REPO}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary hover:underline"
+                    >
+                        {DESKTOP_REPO.replace('https://github.com/', '')}
+                    </a>
+                </div>
+            )}
+            {/* 当前版本 (后端) */}
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                     <Tag className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-sm font-medium">{t('info.currentVersion')}</span>
+                    <span className="text-sm font-medium">{t('info.currentVersionBackend')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                     {nowVersionQuery.isLoading ? (
@@ -102,11 +121,11 @@ export function SettingInfo() {
                 </div>
             </div>
 
-            {/* 最新版本 */}
+            {/* 最新版本 (上游) */}
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                     <Download className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-sm font-medium">{t('info.latestVersion')}</span>
+                    <span className="text-sm font-medium">{t('info.latestVersionUpstream')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                     {latestInfoQuery.isLoading ? (
