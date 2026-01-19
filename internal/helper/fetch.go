@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/bestruirui/octopus/internal/model"
-	"github.com/bestruirui/octopus/internal/transformer/outbound"
+	"github.com/bestruirui/prism/internal/model"
+	"github.com/bestruirui/prism/internal/transformer/outbound"
 )
 
 func FetchModels(ctx context.Context, request model.Channel) ([]string, error) {

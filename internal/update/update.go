@@ -13,13 +13,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bestruirui/octopus/internal/client"
-	"github.com/bestruirui/octopus/internal/conf"
-	"github.com/bestruirui/octopus/internal/utils/log"
+	"github.com/bestruirui/prism/internal/client"
+	"github.com/bestruirui/prism/internal/conf"
+	"github.com/bestruirui/prism/internal/utils/log"
 )
 
 const (
-	updateUrl    = "https://github.com/bestruirui/octopus/releases/latest/download"
+	updateUrl    = "https://github.com/bestruirui/prism/releases/latest/download"
 	updateApiUrl = "https://api.github.com/repos/bestruirui/octopus/releases/latest"
 )
 

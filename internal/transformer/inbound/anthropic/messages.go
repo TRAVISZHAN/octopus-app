@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/bestruirui/octopus/internal/transformer/model"
-	"github.com/bestruirui/octopus/internal/utils/tokenizer"
-	"github.com/bestruirui/octopus/internal/utils/xurl"
+	"github.com/bestruirui/prism/internal/transformer/model"
+	"github.com/bestruirui/prism/internal/utils/tokenizer"
+	"github.com/bestruirui/prism/internal/utils/xurl"
 	"github.com/samber/lo"
 )
 

@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bestruirui/octopus/internal/conf"
-	"github.com/bestruirui/octopus/internal/op"
-	"github.com/bestruirui/octopus/internal/server/auth"
-	"github.com/bestruirui/octopus/internal/server/resp"
+	"github.com/bestruirui/prism/internal/conf"
+	"github.com/bestruirui/prism/internal/op"
+	"github.com/bestruirui/prism/internal/server/auth"
+	"github.com/bestruirui/prism/internal/server/resp"
 	"github.com/gin-gonic/gin"
 )
 

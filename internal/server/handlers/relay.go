@@ -3,10 +3,10 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/bestruirui/octopus/internal/relay"
-	"github.com/bestruirui/octopus/internal/server/middleware"
-	"github.com/bestruirui/octopus/internal/server/router"
-	"github.com/bestruirui/octopus/internal/transformer/inbound"
+	"github.com/bestruirui/prism/internal/relay"
+	"github.com/bestruirui/prism/internal/server/middleware"
+	"github.com/bestruirui/prism/internal/server/router"
+	"github.com/bestruirui/prism/internal/transformer/inbound"
 	"github.com/gin-gonic/gin"
 )
 

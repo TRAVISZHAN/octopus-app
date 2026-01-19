@@ -3,9 +3,10 @@ package conf
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
-	"github.com/bestruirui/octopus/internal/utils/log"
+	"github.com/bestruirui/prism/internal/utils/log"
 	"github.com/spf13/viper"
 )
 
@@ -32,31 +33,41 @@ type Config struct {
 var AppConfig Config
 
 func Load(path string) error {
+	// Get data directory from environment variable (set by Tauri)
+	dataDir := os.Getenv("PRISM_DATA_DIR")
+	if dataDir == "" {
+		dataDir = "data" // fallback to relative path for non-Tauri environments
+	}
+
 	if path != "" {
 		viper.SetConfigFile(path)
 	} else {
 		viper.SetConfigName("config")
 		viper.SetConfigType("json")
-		viper.AddConfigPath("data")
+		viper.AddConfigPath(dataDir)
 	}
 
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix(APP_NAME)
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
-	setDefaults()
+	setDefaults(dataDir)
 
 	if err := viper.ReadInConfig(); err == nil {
 		log.Infof("Using config file: %s", viper.ConfigFileUsed())
 	} else {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			log.Infof("Config file not found, creating default config")
-			if err := os.MkdirAll("data", 0755); err != nil {
+			log.Infof("Config file not found, creating default config in: %s", dataDir)
+			if err := os.MkdirAll(dataDir, 0755); err != nil {
 				log.Errorf("Failed to create data directory: %v", err)
+				return fmt.Errorf("failed to create data directory: %w", err)
 			}
-			if err := viper.SafeWriteConfigAs("data/config.json"); err != nil {
+			configPath := filepath.Join(dataDir, "config.json")
+			if err := viper.SafeWriteConfigAs(configPath); err != nil {
 				log.Errorf("Failed to create default config: %v", err)
+				return fmt.Errorf("failed to create default config: %w", err)
 			}
+			log.Infof("Created default config at: %s", configPath)
 		} else {
 			return fmt.Errorf("error reading config file: %w", err)
 		}
@@ -68,10 +79,12 @@ func Load(path string) error {
 	return nil
 }
 
-func setDefaults() {
+func setDefaults(dataDir string) {
 	viper.SetDefault("server.host", "0.0.0.0")
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("database.type", "sqlite")
-	viper.SetDefault("database.path", "data/data.db")
+	// Use absolute path for database if dataDir is absolute, otherwise relative
+	dbPath := filepath.Join(dataDir, "data.db")
+	viper.SetDefault("database.path", dbPath)
 	viper.SetDefault("log.level", "info")
 }

@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"github.com/bestruirui/octopus/internal/conf"
-	"github.com/bestruirui/octopus/internal/db"
-	"github.com/bestruirui/octopus/internal/op"
-	"github.com/bestruirui/octopus/internal/server"
-	"github.com/bestruirui/octopus/internal/task"
-	"github.com/bestruirui/octopus/internal/utils/log"
-	"github.com/bestruirui/octopus/internal/utils/shutdown"
+	"github.com/bestruirui/prism/internal/conf"
+	"github.com/bestruirui/prism/internal/db"
+	"github.com/bestruirui/prism/internal/op"
+	"github.com/bestruirui/prism/internal/server"
+	"github.com/bestruirui/prism/internal/task"
+	"github.com/bestruirui/prism/internal/utils/log"
+	"github.com/bestruirui/prism/internal/utils/shutdown"
 	"github.com/spf13/cobra"
 )
 

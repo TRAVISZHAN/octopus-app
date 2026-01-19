@@ -8,12 +8,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bestruirui/octopus/internal/model"
-	"github.com/bestruirui/octopus/internal/op"
-	"github.com/bestruirui/octopus/internal/server/middleware"
-	"github.com/bestruirui/octopus/internal/server/resp"
-	"github.com/bestruirui/octopus/internal/server/router"
-	"github.com/bestruirui/octopus/internal/task"
+	"github.com/bestruirui/prism/internal/model"
+	"github.com/bestruirui/prism/internal/op"
+	"github.com/bestruirui/prism/internal/server/middleware"
+	"github.com/bestruirui/prism/internal/server/resp"
+	"github.com/bestruirui/prism/internal/server/router"
+	"github.com/bestruirui/prism/internal/task"
 	"github.com/gin-gonic/gin"
 )
 

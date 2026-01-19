@@ -23,9 +23,9 @@ BUILD_TIME=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
 
 # Build ldflags
 LDFLAGS="-s -w"
-LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/octopus/internal/conf.Version=$VERSION'"
-LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/octopus/internal/conf.Commit=$COMMIT'"
-LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/octopus/internal/conf.BuildTime=$BUILD_TIME'"
+LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/prism/internal/conf.Version=$VERSION'"
+LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/prism/internal/conf.Commit=$COMMIT'"
+LDFLAGS="$LDFLAGS -X 'github.com/bestruirui/prism/internal/conf.BuildTime=$BUILD_TIME'"
 
 echo "Version: $VERSION"
 echo "Commit: $COMMIT"
@@ -40,16 +40,16 @@ if [ "$1" == "--dev" ]; then
 
     case "$GOOS-$GOARCH" in
         darwin-arm64)
-            TARGET="octopus-server-aarch64-apple-darwin"
+            TARGET="prism-server-aarch64-apple-darwin"
             ;;
         darwin-amd64)
-            TARGET="octopus-server-x86_64-apple-darwin"
+            TARGET="prism-server-x86_64-apple-darwin"
             ;;
         linux-amd64)
-            TARGET="octopus-server-x86_64-unknown-linux-gnu"
+            TARGET="prism-server-x86_64-unknown-linux-gnu"
             ;;
         windows-amd64)
-            TARGET="octopus-server-x86_64-pc-windows-msvc.exe"
+            TARGET="prism-server-x86_64-pc-windows-msvc.exe"
             ;;
         *)
             echo "Unsupported platform: $GOOS-$GOARCH"
@@ -66,23 +66,23 @@ fi
 # Build for all platforms
 echo ""
 echo "=== macOS Apple Silicon (arm64) ==="
-GOOS=darwin GOARCH=arm64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-aarch64-apple-darwin" main.go
-echo "Done: octopus-server-aarch64-apple-darwin"
+GOOS=darwin GOARCH=arm64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/prism-server-aarch64-apple-darwin" main.go
+echo "Done: prism-server-aarch64-apple-darwin"
 
 echo ""
 echo "=== macOS Intel (amd64) ==="
-GOOS=darwin GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-x86_64-apple-darwin" main.go
-echo "Done: octopus-server-x86_64-apple-darwin"
+GOOS=darwin GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/prism-server-x86_64-apple-darwin" main.go
+echo "Done: prism-server-x86_64-apple-darwin"
 
 echo ""
 echo "=== Windows (amd64) ==="
-GOOS=windows GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-x86_64-pc-windows-msvc.exe" main.go
-echo "Done: octopus-server-x86_64-pc-windows-msvc.exe"
+GOOS=windows GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/prism-server-x86_64-pc-windows-msvc.exe" main.go
+echo "Done: prism-server-x86_64-pc-windows-msvc.exe"
 
 echo ""
 echo "=== Linux (amd64) ==="
-GOOS=linux GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/octopus-server-x86_64-unknown-linux-gnu" main.go
-echo "Done: octopus-server-x86_64-unknown-linux-gnu"
+GOOS=linux GOARCH=amd64 go build -ldflags="$LDFLAGS" -o "$OUTPUT_DIR/prism-server-x86_64-unknown-linux-gnu" main.go
+echo "Done: prism-server-x86_64-unknown-linux-gnu"
 
 echo ""
 echo "All binaries built successfully!"

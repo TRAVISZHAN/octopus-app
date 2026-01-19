@@ -1,8 +1,8 @@
 {
-  "name": "octopus-desktop",
+  "name": "prism-desktop",
   "version": "1.0.0",
   "private": true,
-  "description": "Octopus Desktop Application",
+  "description": "Prism Desktop Application",
   "scripts": {
     "tauri:dev": "tauri dev",
     "tauri:build": "sh scripts/build-go-binaries.sh && tauri build",
@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
   }
 }

@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Octopus",
+  "productName": "Prism",
   "version": "1.0.0",
-  "identifier": "com.octopus.app",
+  "identifier": "com.prism.app",
   "build": {
     "beforeDevCommand": "cd web && NEXT_PUBLIC_APP_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || git rev-parse --short HEAD 2>/dev/null || echo 'dev') pnpm run dev",
     "beforeBuildCommand": "cd web && NEXT_PUBLIC_APP_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || git rev-parse --short HEAD 2>/dev/null || echo 'dev') pnpm run build",
@@ -12,15 +12,15 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "externalBin": ["binaries/octopus-server"],
+    "externalBin": ["binaries/prism-server"],
     "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.icns",
-      "icons/icon.ico"
+      "icons/app-32x32.png",
+      "icons/app-128x128.png",
+      "icons/app-256x256.png",
+      "icons/app.icns",
+      "icons/app.ico"
     ],
-    "resources": ["icons/icon-template.png"],
+    "resources": ["icons/tray-32x32.png"],
     "macOS": {
       "minimumSystemVersion": "10.15",
       "entitlements": null,
@@ -41,7 +41,7 @@
   "app": {
     "windows": [
       {
-        "title": "Octopus",
+        "title": "Prism",
         "label": "main",
         "width": 1200,
         "height": 800,

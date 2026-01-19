@@ -3,9 +3,9 @@ package helper
 import (
 	"context"
 
-	"github.com/bestruirui/octopus/internal/model"
-	"github.com/bestruirui/octopus/internal/op"
-	"github.com/bestruirui/octopus/internal/price"
+	"github.com/bestruirui/prism/internal/model"
+	"github.com/bestruirui/prism/internal/op"
+	"github.com/bestruirui/prism/internal/price"
 )
 
 func LLMPriceAddToDB(modelNames []string, ctx context.Context) error {

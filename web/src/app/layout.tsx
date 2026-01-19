@@ -17,17 +17,17 @@ export default function RootLayout({
     <html suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#eae9e3" />
-        <meta name="application-name" content="Octopus" />
+        <meta name="application-name" content="Prism" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta name="apple-mobile-web-app-title" content="Octopus" />
+        <meta name="apple-mobile-web-app-title" content="Prism" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-status-bar-style" content="black" />
-        <meta name="mobile-web-app-title" content="Octopus" />
+        <meta name="mobile-web-app-title" content="Prism" />
         <link rel="manifest" href="./manifest.json" />
         <link rel="icon" href="./favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="./apple-icon.png" />
-        <title>Octopus</title>
+        <title>Prism</title>
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -97,11 +97,14 @@ export default function RootLayout({
         <div id="initial-loader" role="status" aria-label="Loading">
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <g className="octo-group">
-              <path pathLength="1" d="M50 15 C70 15 85 30 85 50 C85 65 75 75 70 80 M50 15 C30 15 15 30 15 50 C15 65 25 75 30 80" />
-              <path pathLength="1" d="M30 80 Q30 90 20 90" />
-              <path pathLength="1" d="M43 77 Q43 90 38 90" />
-              <path pathLength="1" d="M57 77 Q57 90 62 90" />
-              <path pathLength="1" d="M70 80 Q70 90 80 90" />
+              <path pathLength="1" d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z" />
+              <path pathLength="1" d="M10 28 L50 5 L90 28" />
+              <path pathLength="1" d="M10 72 L50 95 L90 72" />
+              <path pathLength="1" d="M10 28 L28 65 L72 65 L90 28" />
+              <path pathLength="1" d="M28 65 L50 95 L72 65" />
+              <path pathLength="1" d="M50 5 L50 45 L28 65" />
+              <path pathLength="1" d="M50 45 L72 65" />
+              <path pathLength="1" d="M10 28 L50 45 L90 28" />
             </g>
           </svg>
         </div>

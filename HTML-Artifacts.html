@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+
+        h2 { font-weight: 300; letter-spacing: 2px; color: #888; margin-bottom: 40px; }
+
+        .container {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        /* 卡片基础 */
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 240px;
+        }
+
+        .preview-box {
+            width: 240px;
+            height: 240px;
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+        
+        .preview-box:hover {
+            transform: translateY(-5px);
+            border-color: #333;
+        }
+
+        .icon-svg {
+            width: 140px;
+            height: 140px;
+            overflow: visible;
+        }
+
+        .label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #eee;
+        }
+
+        .usage {
+            font-size: 12px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .code-block {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            font-family: monospace;
+            font-size: 10px;
+            color: #888;
+            border: 1px solid #222;
+            position: relative;
+            text-align: left;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .copy-hint {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            font-size: 9px;
+            color: #444;
+            pointer-events: none;
+        }
+
+        /* --- 样式定义 --- */
+        
+        /* 通用路径数据 */
+        /* d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z M10 28 L50 5 L90 28 M10 72 L50 95 L90 72 M10 28 L28 65 L72 65 L90 28 M28 65 L50 95 L72 65 M50 5 L50 45 L28 65 M50 45 L72 65 M10 28 L50 45 L90 28" */
+
+        /* 样式 1: 极光青 (Brand / Marketing) */
+        .style-cyan path {
+            fill: none;
+            stroke: #00f2ff;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.5)); /* 增强光晕 */
+        }
+        
+        /* 样式 4: 极简白 (UI / App Icon) */
+        .style-white path {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2.2; /* 稍微细一点，适应小尺寸 */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.95;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2>FINAL SELECTION: PRISM V3</h2>
+
+    <div class="container">
+        
+        <!-- 选项 1 -->
+        <div class="card">
+            <div class="preview-box">
+                <svg class="icon-svg style-cyan" viewBox="0 0 100 100">
+                    <path d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z M10 28 L50 5 L90 28 M10 72 L50 95 L90 72 M10 28 L28 65 L72 65 L90 28 M28 65 L50 95 L72 65 M50 5 L50 45 L28 65 M50 45 L72 65 M10 28 L50 45 L90 28" />
+                </svg>
+            </div>
+            <div class="label">Style 01. Aurora Cyan</div>
+            <div class="usage">Use for: Logo, Header, Marketing</div>
+            
+            <div class="code-block">
+                <div class="copy-hint">SVG CODE</div>
+&lt;svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;path d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z M10 28 L50 5 L90 28 M10 72 L50 95 L90 72 M10 28 L28 65 L72 65 L90 28 M28 65 L50 95 L72 65 M50 5 L50 45 L28 65 M50 45 L72 65 M10 28 L50 45 L90 28" 
+  fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /&gt;
+&lt;/svg&gt;
+            </div>
+        </div>
+
+        <!-- 选项 4 -->
+        <div class="card">
+            <div class="preview-box">
+                <svg class="icon-svg style-white" viewBox="0 0 100 100">
+                    <path d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z M10 28 L50 5 L90 28 M10 72 L50 95 L90 72 M10 28 L28 65 L72 65 L90 28 M28 65 L50 95 L72 65 M50 5 L50 45 L28 65 M50 45 L72 65 M10 28 L50 45 L90 28" />
+                </svg>
+            </div>
+            <div class="label">Style 04. Minimalist White</div>
+            <div class="usage">Use for: UI Button, Icon, Small Sizes</div>
+
+            <div class="code-block">
+                 <div class="copy-hint">SVG CODE</div>
+&lt;svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;path d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z M10 28 L50 5 L90 28 M10 72 L50 95 L90 72 M10 28 L28 65 L72 65 L90 28 M28 65 L50 95 L72 65 M50 5 L50 45 L28 65 M50 45 L72 65 M10 28 L50 45 L90 28" 
+  fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /&gt;
+&lt;/svg&gt;
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

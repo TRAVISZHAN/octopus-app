@@ -7,11 +7,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bestruirui/octopus/internal/model"
-	"github.com/bestruirui/octopus/internal/op"
-	"github.com/bestruirui/octopus/internal/price"
-	transformerModel "github.com/bestruirui/octopus/internal/transformer/model"
-	"github.com/bestruirui/octopus/internal/utils/log"
+	"github.com/bestruirui/prism/internal/model"
+	"github.com/bestruirui/prism/internal/op"
+	"github.com/bestruirui/prism/internal/price"
+	transformerModel "github.com/bestruirui/prism/internal/transformer/model"
+	"github.com/bestruirui/prism/internal/utils/log"
 )
 
 // RelayMetrics 统一管理请求的日志记录和统计信息

@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/bestruirui/octopus/internal/transformer/model"
+	"github.com/bestruirui/prism/internal/transformer/model"
 )
 
 type ChatOutbound struct{}

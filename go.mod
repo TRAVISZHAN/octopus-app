@@ -1,4 +1,4 @@
-module github.com/bestruirui/octopus
+module github.com/bestruirui/prism
 
 go 1.24.4
 

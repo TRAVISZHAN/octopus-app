@@ -32,13 +32,26 @@ async fn start_go_backend(
         return Err("Backend is already running".to_string());
     }
 
+    // Get app data directory for storing config and database
+    let data_dir = app
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+
+    // Ensure data directory exists
+    if !data_dir.exists() {
+        std::fs::create_dir_all(&data_dir)
+            .map_err(|e| format!("Failed to create data directory: {}", e))?;
+    }
+
     // Get the sidecar command
     let sidecar = app
         .shell()
-        .sidecar("octopus-server")
+        .sidecar("prism-server")
         .map_err(|e| format!("Failed to create sidecar command: {}", e))?
         .args(["start"])
-        .env("OCTOPUS_CORS_ALLOW_ORIGINS", "*");
+        .env("PRISM_CORS_ALLOW_ORIGINS", "*")
+        .env("PRISM_DATA_DIR", data_dir.to_string_lossy().to_string());
 
     // Spawn the process
     let (mut rx, child) = sidecar
@@ -114,13 +127,26 @@ async fn do_restart(app: AppHandle, state: &GoProcess) -> Result<String, String>
         return Err("Backend is already running".to_string());
     }
 
+    // Get app data directory for storing config and database
+    let data_dir = app
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+
+    // Ensure data directory exists
+    if !data_dir.exists() {
+        std::fs::create_dir_all(&data_dir)
+            .map_err(|e| format!("Failed to create data directory: {}", e))?;
+    }
+
     // Get the sidecar command
     let sidecar = app
         .shell()
-        .sidecar("octopus-server")
+        .sidecar("prism-server")
         .map_err(|e| format!("Failed to create sidecar command: {}", e))?
         .args(["start"])
-        .env("OCTOPUS_CORS_ALLOW_ORIGINS", "*");
+        .env("PRISM_CORS_ALLOW_ORIGINS", "*")
+        .env("PRISM_DATA_DIR", data_dir.to_string_lossy().to_string());
 
     // Spawn the process
     let (mut rx, child) = sidecar
@@ -184,7 +210,7 @@ fn create_tray(app: &AppHandle) -> tauri::Result<()> {
         // Try to load template icon for macOS
         match app.path().resource_dir() {
             Ok(resource_dir) => {
-                let icon_path = resource_dir.join("icons/icon-template.png");
+                let icon_path = resource_dir.join("icons/tray-32x32.png");
                 match load_icon_from_path(&icon_path) {
                     Ok(img) => img,
                     Err(_) => {

@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/bestruirui/octopus/internal/conf"
-	dbmodel "github.com/bestruirui/octopus/internal/model"
-	"github.com/bestruirui/octopus/internal/transformer/model"
+	"github.com/bestruirui/prism/internal/conf"
+	dbmodel "github.com/bestruirui/prism/internal/model"
+	"github.com/bestruirui/prism/internal/transformer/model"
 	"github.com/gin-gonic/gin"
 )
 
